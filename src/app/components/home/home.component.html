@@ -1,1 +1,32 @@
-<p>home works!</p>
+<div class="cont">
+  <div class="container">
+  <div class="row position-relative py-5">
+    <div class="col-md-12 text-center py-5 my-5">
+      <div class="py-5 my-5">
+             <img src="assets/home/icon.png" alt="" class="py-5 my-2 message">
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-4 p-2" *ngFor="let i of images">
+<div>
+  <div class="upper p-5">
+<div class="bg-lighter px-5">
+  <h1>{{i.title}}</h1>
+  <p>{{i.description}}</p>
+</div>
+  </div>
+  <div class="lower">
+  <img src="{{i.image}}" class="w-100" style="min-height: 100%;">
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 py-5 my-5">
+      <img src="assets/home/network.jpg" alt="" class="w-100 rounded shadow border hiddenDiv"  #hiddenDiv style="max-height: 300px;">
+    </div>
+  </div>
+</div>
+
+</div>
