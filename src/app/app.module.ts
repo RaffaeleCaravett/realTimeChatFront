@@ -8,6 +8,8 @@ import { NavComponent } from './components/nav/nav.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenInterceptor } from './core/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,10 +28,16 @@ import { ToastrModule, provideToastr } from 'ngx-toastr';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    HttpClientModule
   ],
   providers: [
     provideAnimations(),
     provideToastr(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

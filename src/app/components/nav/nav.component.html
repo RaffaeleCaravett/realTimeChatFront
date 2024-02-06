@@ -10,7 +10,8 @@
     <button class="btn fs-4" [routerLink]="['/profilo',user?.id]">Profile</button>
     </div>
     <div class="col-md-3">
-    <button class="btn fs-4" [routerLink]="'/'">Login/Signup</button>
-    </div>
+    <button class="btn fs-4" [routerLink]="'/'" *ngIf="!isAuthenticated">Login/Signup</button>
+    <button class="btn fs-4" (click)="logout()" *ngIf="isAuthenticated">Logout</button>
+  </div>
   </div>
 </nav>
