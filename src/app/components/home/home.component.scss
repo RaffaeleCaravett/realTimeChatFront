@@ -1,5 +1,5 @@
 .message:hover{
-  scale: 1.2;
+  scale: 1.5;
   transition: 2s;
 }
 .message{
@@ -55,4 +55,12 @@ z-index:4
   color: #fff;
   transform: translate(0,0);
   transition: 2s;
+}
+.col-md-8{
+  scale: 0.0;
+  transition:2s
+}
+.returnScale{
+  scale: 1;
+  transition:2s
 }

@@ -1,1 +1,54 @@
-<p>login works!</p>
+<div class="cont">
+  <div class="container">
+    <div class="row text-center py-5">
+      <div class="col-md-12 py-5">
+              <h1>Start your chats!</h1>
+      </div>
+<div class="col-md-12 text-dark py-5">
+  <div *ngIf="section=='login'" class="w-50 m-auto p-5 form-container">
+    <form [formGroup]="signIn" class="p-4">
+<label for="" class="py-4 fs-3 fw-bold">Email</label>
+<input type="text" class="form-control bg-transparent m-auto" formControlName="email">
+<label for="" class="py-4 fs-3 fw-bold">Password</label>
+<input type="password" class="form-control bg-transparent m-auto" formControlName="password">
+<button class="px-5 py-2 m-2" >LOGIN</button>
+<button class="px-5 py-2 m-2" (click)="section='signup'">SIGNUP</button>
+</form>
+  </div>
+  <div *ngIf="section=='signup'"  class="w-50 m-auto form-container">
+    <form [formGroup]="signUp" class="p-4">
+      <div class="row">
+<div class="col-md-6">
+   <label for="" class="py-4 fs-3 fw-bold">Nome</label>
+<input type="text" class="form-control bg-transparent m-auto" formControlName="nome">
+</div>
+<div class="col-md-6">
+<label for="" class="py-4 fs-3 fw-bold">Cognome</label>
+<input type="text" class="form-control bg-transparent m-auto" formControlName="cognome">
+</div>
+<div class="col-md-12">
+  <label for="" class="py-4 fs-3 fw-bold">Email</label>
+<input type="text" class="form-control bg-transparent m-auto" formControlName="email">
+</div>
+<div class="col-md-12">
+  <label for="" class="py-4 fs-3 fw-bold">Età</label>
+<input type="number" class="form-control bg-transparent m-auto" formControlName="eta">
+</div>
+<div class="col-md-6">
+  <label for="" class="py-4 fs-3 fw-bold">Password</label>
+<input type="password" class="form-control bg-transparent m-auto" formControlName="password">
+</div>
+<div class="col-md-6">
+  <label for="" class="py-4 fs-3 fw-bold">Ripeti password</label>
+<input type="password" class="form-control bg-transparent m-auto" formControlName="ripetiPassword">
+</div>
+      </div>
+      <button class="px-5 py-2 m-2" >SIGNUP</button>
+      <button class="px-5 py-2 m-2" (click)="section='login'">LOGIN</button>
+    </form>
+  </div>
+</div>
+</div>
+    </div>
+  </div>
+

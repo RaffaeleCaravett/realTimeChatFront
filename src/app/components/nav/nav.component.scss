@@ -5,3 +5,12 @@
  nav{
   background: rgba(255, 255, 255,0.7);
 }
+.btn:hover{
+  background: url('../../../assets/app-bg/chat.avif');
+  color:white;
+  transition:2s
+}
+.btn{
+  color:black;
+  transition: 2s;
+}

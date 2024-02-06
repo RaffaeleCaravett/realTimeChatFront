@@ -8,6 +8,7 @@ import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 export class HomeComponent {
 
   @ViewChild('hiddenDiv', {static: false}) private hiddenDiv!: ElementRef<HTMLDivElement>;
+  @ViewChild('scaleDiv', {static: false}) private scaleDiv!: ElementRef<HTMLDivElement>;
 isHiddenDivScrolledIntoView!: boolean;
 
 images:any[]=[
@@ -39,8 +40,10 @@ isScrolledIntoView(){
     this.isHiddenDivScrolledIntoView = topShown && bottomShown;
 if(this.isHiddenDivScrolledIntoView){
 this.hiddenDiv.nativeElement.classList.add('return')
+this.scaleDiv.nativeElement.classList.add('returnScale')
 }else{
   this.hiddenDiv.nativeElement.classList.remove('return')
+  this.scaleDiv.nativeElement.classList.remove('returnScale')
 }
   }
 }

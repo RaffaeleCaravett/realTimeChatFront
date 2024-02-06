@@ -16,7 +16,7 @@ const routes: Routes = [
    loadChildren: () => import('./components/profile/profile.module').then(m => m.ProfileModule), canActivate:[AuthGuard]},
 {
   path:'chat',
-   loadChildren: () => import('./components/chat/chat.module').then(m => m.ChatModule)},
+   loadChildren: () => import('./components/chat/chat.module').then(m => m.ChatModule),canActivate:[AuthGuard]},
 {
   path:'**',
   component:NotFoundComponent
