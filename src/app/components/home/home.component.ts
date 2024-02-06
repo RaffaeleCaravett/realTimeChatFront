@@ -1,11 +1,12 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit{
 
   @ViewChild('hiddenDiv', {static: false}) private hiddenDiv!: ElementRef<HTMLDivElement>;
   @ViewChild('scaleDiv', {static: false}) private scaleDiv!: ElementRef<HTMLDivElement>;
@@ -29,7 +30,10 @@ images:any[]=[
   }
 ]
 
-
+constructor(private toastr:ToastrService){}
+  ngAfterViewInit(): void {
+this.toastr.show('Welcome here')
+}
 
 @HostListener('window:scroll', ['$event'])
 isScrolledIntoView(){
