@@ -4,3 +4,19 @@
 .bg-personal{
   background-color: rgba(255, 255, 255, 0.5);
 }
+.position-relative{
+  background: url('../../../assets/chatbg/chatbg.avif');
+  opacity: 0.8;
+}
+.bg-image-logo{
+  width: 200px;
+height: 200px;
+img:hover{
+scale:1.2;
+transition: 2s;
+}
+img{
+  scale:1;
+transition: 2s;
+}
+}

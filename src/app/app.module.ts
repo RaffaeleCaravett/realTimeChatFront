@@ -10,6 +10,11 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './core/token.interceptor';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { WebsocketService } from './services/websocket.service';
+
+const config: SocketIoConfig = { url: 'http://localhost:3031', options: {} };
+
 
 @NgModule({
   declarations: [
@@ -28,7 +33,8 @@ import { TokenInterceptor } from './core/token.interceptor';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-    HttpClientModule
+    HttpClientModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     provideAnimations(),
@@ -37,7 +43,8 @@ import { TokenInterceptor } from './core/token.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    }
+    },
+    WebsocketService
   ],
   bootstrap: [AppComponent]
 })
