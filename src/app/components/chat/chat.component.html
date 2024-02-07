@@ -1,1 +1,20 @@
-<p>chat works!</p>
+<div class="cont">
+  <div class="container py-5">
+    <div class="row py-5">
+      <div class="col-md-3 p-1">
+        <div class="border rounded bg-personal text-center" *ngIf="users&&users.content">
+          <h2 class="fw-bold">Users</h2>
+          <p class="p-1 " *ngFor="let u of users.content"><button class="btn fs-5">{{u.nome + " " + u.cognome}}</button></p>
+        </div>
+        <div class="border my-2 rounded bg-personal text-center" >
+          <h2 class="fw-bold">Chat avviate</h2>
+        </div>
+      </div>
+      <div class="col-md-9 p-1">
+        <div class="border rounded bg-personal text-center">
+          <h1 class="fw-bold">Chat</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
