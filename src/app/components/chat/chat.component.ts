@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { WebsocketService } from '../../services/websocket.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import * as SockJS from 'sockjs-client';
+import * as Stomp from '@stomp/stompjs';
 
 
 @Component({
@@ -10,7 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit{
+export class ChatComponent implements OnInit,OnDestroy{
 
 user:any
 users:any
@@ -19,7 +22,11 @@ messages:any[]=[]
 chats:any[]=[]
 chat:any
 chatForm!:FormGroup
-constructor(private chatService:ChatService,private  websocketService:WebsocketService,private toastr:ToastrService){}
+socket:any
+constructor(private chatService:ChatService,private  websocketService:WebsocketService,private toastr:ToastrService,private authService:AuthService){}
+  ngOnDestroy(): void {
+this.websocketService.disconnect()
+ }
 
   ngOnInit(): void {
     if(localStorage.getItem('user')){
@@ -39,23 +46,18 @@ this.user=JSON.parse(localStorage.getItem('user')!)
       if(chats){
         for(let c of chats){
           this.chats.push(c)
-          console.log(this.chats)
 }
       }
     })
   })
 
+ this.websocketService.connect()
 
-  this.websocketService.connectToChat('chatId');
-  this.websocketService.onMessageReceived()
-    .subscribe((message: any) => {
-      console.log('Message received:', message);
-    });
 this.chatForm=new FormGroup({
   messaggio:new FormControl('',Validators.required)
 })
   }
-
+stompClient:any
 avviaChat(userId:number){
   this.chat=null
   if(userId!=this.user.id){
@@ -64,6 +66,8 @@ avviaChat(userId:number){
     if(c.starter.id==this.user.id&&userId==c.partecipants[0].id||
       c.starter.id==userId&&this.user.id==c.partecipants[0].id){
   this.chat=c
+  if(this.chat){
+  }
       }
   }
     }
@@ -80,24 +84,29 @@ if(!this.chat){
     this.chat=chat
     this.chats.push(chat)
     this.toastr.show("Chat avviata con successo")
+    if(this.chat){
+    }
   })
 }
 }
 }
 inviaMessaggio(){
   if(this.chatForm.valid){
-    this.chatService.saveMessaggio(
-    {
+    // this.chatService.saveMessaggio(
+    //
+   let message= {
 chat_id:this.chat.id,
 sender_id:this.user.id,
 receiver_id:[this.chat.partecipants[0].id],
 messaggio:this.chatForm.controls['messaggio'].value
-    }).subscribe((messaggio:any)=>{
-      this.chat.messaggio.push(messaggio)
-      this.chatForm.reset()
-    },err=>{
-      this.toastr.error(err.error.message||"Qualcosa è andato storto nel salvataggio del messaggio")
-    });
+     }
+    //).subscribe((messaggio:any)=>{
+    //   this.chat.messaggio.push(messaggio)
+    //   this.chatForm.reset()
+    // },err=>{
+    //   this.toastr.error(err.error.message||"Qualcosa è andato storto nel salvataggio del messaggio")
+    // });
+this.websocketService.send(message)
   }
 }
 }
