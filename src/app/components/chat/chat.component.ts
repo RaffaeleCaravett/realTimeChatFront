@@ -63,6 +63,22 @@ avviaChat(userId:number){
     if(c.starter.id==this.user.id&&userId==c.partecipants[0].id||
       c.starter.id==userId&&this.user.id==c.partecipants[0].id){
   this.chat=c
+  for(let messaggio of this.chat.messaggio){
+    if(messaggio.message_state=="SENT"){
+      let receivers:any[]=[]
+      for(let r of messaggio.receiver){
+        receivers.push(r.id)
+      }
+      this.chatService.putMessaggio(messaggio.id,
+        {
+          chat_id:messaggio.chat.id,
+sender_id:messaggio.sender.id,
+receiver_id:receivers,
+messaggio:messaggio.message
+        }
+      ).subscribe((data:any)=>{})
+    }
+  }
   this.interval= setInterval(()=>{
 this.chatService.getMessaggiByChatId(this.chat.id).subscribe((messaggi:any)=>{
   this.chat.messaggio=messaggi
@@ -84,6 +100,22 @@ if(!this.chat){
     this.chat=chat
     this.chats.push(chat)
     this.toastr.show("Chat avviata con successo")
+    for(let messaggio of this.chat.messaggio){
+      if(messaggio.message_state=="SENT"){
+        let receivers:any[]=[]
+        for(let r of messaggio.receiver){
+          receivers.push(r.id)
+        }
+        this.chatService.putMessaggio(messaggio.id,
+          {
+            chat_id:messaggio.chat.id,
+  sender_id:messaggio.sender.id,
+  receiver_id:receivers,
+  messaggio:messaggio.message
+          }
+        ).subscribe((data:any)=>{})
+      }
+    }
     this.interval= setInterval(()=>{
       this.chatService.getMessaggiByChatId(this.chat.id).subscribe((messaggi:any)=>{
         this.chat.messaggio=messaggi
