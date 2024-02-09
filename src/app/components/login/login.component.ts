@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
@@ -97,6 +97,15 @@ login(){
       })
       }else{
         this.toastr.error("Completa il form o assicurati che le password coincidano")
+      }
+    }
+
+    @HostListener('document:keydown.enter', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+      if(this.section=='login'){
+        this.login()
+      }else{
+        this.signup()
       }
     }
 }

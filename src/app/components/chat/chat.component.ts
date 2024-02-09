@@ -20,8 +20,10 @@ chats:any[]=[]
 chat:any
 chatForm!:FormGroup
 socket:any
+interval:any
 constructor(private chatService:ChatService,private toastr:ToastrService){}
   ngOnDestroy(): void {
+  clearInterval(this.interval)
  }
 
   ngOnInit(): void {
@@ -56,13 +58,16 @@ stompClient:any
 avviaChat(userId:number){
   this.chat=null
   if(userId!=this.user.id){
-    if(this.chats.length>0){
+    if(this.chats&&this.chats.length>0){
       for(let c of this.chats){
     if(c.starter.id==this.user.id&&userId==c.partecipants[0].id||
       c.starter.id==userId&&this.user.id==c.partecipants[0].id){
   this.chat=c
-  if(this.chat){
-  }
+  this.interval= setInterval(()=>{
+this.chatService.getMessaggiByChatId(this.chat.id).subscribe((messaggi:any)=>{
+  this.chat.messaggio=messaggi
+})
+  },3000)
       }
   }
     }
@@ -79,8 +84,11 @@ if(!this.chat){
     this.chat=chat
     this.chats.push(chat)
     this.toastr.show("Chat avviata con successo")
-    if(this.chat){
-    }
+    this.interval= setInterval(()=>{
+      this.chatService.getMessaggiByChatId(this.chat.id).subscribe((messaggi:any)=>{
+        this.chat.messaggio=messaggi
+      })
+        },3000)
   })
 }
 }

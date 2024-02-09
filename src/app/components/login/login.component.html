@@ -5,17 +5,20 @@
               <h1>Start your chats now!</h1>
       </div>
 <div class="col-md-12 text-dark py-5">
-  <div *ngIf="section=='login'" class="w-50 m-auto p-5 form-container">
+  <div class="row">
+    <div class="col-md-3"></div>
+      <div *ngIf="section=='login'" class="col-md-6 form-container">
     <form [formGroup]="loginForm" class="p-4">
 <label for="" class="py-4 fs-3 fw-bold">Email</label>
 <input type="text" class="form-control bg-transparent m-auto" formControlName="email">
 <label for="" class="py-4 fs-3 fw-bold">Password</label>
 <input type="password" class="form-control bg-transparent m-auto" formControlName="password">
-<button class="px-5 py-2 m-2" (click)="login()">LOGIN</button>
-<button class="px-5 py-2 m-2" (click)="section='signup'">SIGNUP</button>
+<div class="p-2 d-flex justify-content-around">
+<button class="px-3 py-2" (click)="login()">LOGIN</button>
+<button class="px-3 py-2" (click)="section='signup'">SIGNUP</button></div>
 </form>
   </div>
-  <div *ngIf="section=='signup'"  class="w-50 m-auto form-container">
+  <div *ngIf="section=='signup'"  class="col-md-6 form-container">
     <form [formGroup]="signupForm" class="p-4">
       <div class="row">
 <div class="col-md-6">
@@ -43,10 +46,15 @@
 <input type="password" class="form-control bg-transparent m-auto" formControlName="ripetiPassword">
 </div>
       </div>
-      <button class="px-5 py-2 m-2" (click)="signup()">SIGNUP</button>
-      <button class="px-5 py-2 m-2" (click)="section='login'">LOGIN</button>
+      <div class="p-2 d-flex justify-content-around">
+      <button class="px-3 py-2" (click)="signup()">SIGNUP</button>
+      <button class="px-3 py-2" (click)="section='login'">LOGIN</button>
+      </div>
     </form>
   </div>
+    <div class="col-md-3"></div>
+  </div>
+
 </div>
 </div>
     </div>
