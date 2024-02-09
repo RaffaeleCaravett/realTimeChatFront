@@ -22,7 +22,7 @@ z-index:4
       transition: 2s;
       z-index: 1;
 }
-.col-md-4{
+.col-xl-4{
   div:hover{
     .bg-lighter{
     background: rgba(255, 255, 255, 0.7);
@@ -45,7 +45,7 @@ z-index:4
   }
 }
 .hiddenDiv{
-  background-color: #3498db;
+  background-color: transparent;
   color: #fff;
   transform: translate(-200%,0);
   transition: 2s;
@@ -56,10 +56,7 @@ z-index:4
   transform: translate(0,0);
   transition: 2s;
 }
-.col-md-8{
-  scale: 0.0;
-  transition:2s
-}
+
 .returnScale{
   scale: 1;
   transition:2s

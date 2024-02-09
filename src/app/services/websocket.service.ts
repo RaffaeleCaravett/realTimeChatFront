@@ -1,57 +1,34 @@
+import { JsonPipe } from "@angular/common";
 import { Injectable } from "@angular/core";
-import { Socket } from "ngx-socket-io";
-import { Observable, Subject } from "rxjs";
-import { environment } from "../core/environment";
-import * as SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
 
 @Injectable({
   providedIn: 'root'
 })
-export class WebsocketService {
-
-stompClient:any
-topic:string = "/topic/chat";
-responseSubject = new Subject<any>();
-webSocketEndPoint:string = environment.API_URL+"/ws";
-
-  constructor(private socket: Socket) { }
-
-  connect(){
-console.log("Initialize websocket connection");
-let ws = SockJS(this.webSocketEndPoint);
-this.stompClient=Stomp.over(ws);
-
-const _this=this;
-_this.stompClient.connect({}, function(frame:any){
-  _this.stompClient.subscribe(_this.topic,function(chatResponse:any){
-    _this.onMessageReceived(chatResponse);
-  });
-},this.errorCallBack);
-}
-
-disconnect(){
-  if(this.stompClient!=null){
-    this.stompClient.disconnect();
+export class WebSocketService {
+  socket= new SockJS("/ws")
+  stompClient = Stomp.over(this.socket);
+  connect(message:any){
+  this.stompClient.connect({},this.onConnect(message) , this.onError())
   }
-  console.log("Disconnected")
-}
 
-errorCallBack(error:any){
-  console.log("errorCallBack => " + error)
-  setTimeout(()=>{
-    this.connect();
-  },5000);
-}
+  onConnect(message:any){
+this.stompClient.subscribe('/topic/public',(data:any)=> {this.onMessageReceived(data)});
 
-send(message:any){
-  console.log("calling logout api via web socket");
-  this.stompClient.send("/app/greet",{}, JSON.stringify(message));
-}
+this.stompClient.send('/app/chat.addUser',{},JSON.stringify(message))
+  }
 
-onMessageReceived(message:any){
-  console.log("Message received from server : " + message.body);
-  const obj = JSON.parse(message.body);
-  this.responseSubject.next(obj);
+  onMessageReceived(payload:any){
+let message=JSON.parse(payload.body)
+return message;
+  }
+
+  onError(){
+    console.log("Refresh the page")
+  }
+
+sendMessage(message:any){
+this.stompClient.send("/app/chat.sendMessage",{},JSON.stringify(message));
 }
 }

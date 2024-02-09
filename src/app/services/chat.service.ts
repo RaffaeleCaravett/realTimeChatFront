@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { AuthGuard } from "../core/auth.guard"
 import { environment } from "../core/environment"
-import { BehaviorSubject } from "rxjs"
 
 @Injectable({
   providedIn: 'root'
@@ -43,4 +42,5 @@ deleteMessaggio(id:number){
 getMessaggiByChatId(id:number){
 return this.http.get(environment.API_URL+this.messaggio+`/chat/${id}`)
 }
+
 }
