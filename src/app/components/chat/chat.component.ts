@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-import { WebSocketService } from 'src/app/services/webSocket.service';
 
 
 
@@ -22,7 +20,7 @@ chats:any[]=[]
 chat:any
 chatForm!:FormGroup
 socket:any
-constructor(private chatService:ChatService,private toastr:ToastrService,private wsService:WebSocketService){}
+constructor(private chatService:ChatService,private toastr:ToastrService){}
   ngOnDestroy(): void {
  }
 
@@ -89,23 +87,18 @@ if(!this.chat){
 }
 inviaMessaggio(){
   if(this.chatForm.valid){
-    // this.chatService.saveMessaggio(
-    //
-   let message= {
+    this.chatService.saveMessaggio({
 chat_id:this.chat.id,
 sender_id:this.user.id,
 receiver_id:[this.chat.partecipants[0].id],
 messaggio:this.chatForm.controls['messaggio'].value
      }
-
-     this.wsService.connect(message);
-     this.wsService.sendMessage(message);
-    //).subscribe((messaggio:any)=>{
-    //   this.chat.messaggio.push(messaggio)
-    //   this.chatForm.reset()
-    // },err=>{
-    //   this.toastr.error(err.error.message||"Qualcosa è andato storto nel salvataggio del messaggio")
-    // });
+    ).subscribe((messaggio:any)=>{
+      this.chat.messaggio.push(messaggio)
+      this.chatForm.reset()
+    },err=>{
+      this.toastr.error(err.error.message||"Qualcosa è andato storto nel salvataggio del messaggio")
+    });
   }
 }
 }
