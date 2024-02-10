@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {MatMenuModule} from '@angular/material/menu';
 ReactiveFormsModule,
 MatIconModule,
 MatBadgeModule,
-MatMenuModule
+MatMenuModule,
+MatDialogModule
   ],
   providers: [
   ],

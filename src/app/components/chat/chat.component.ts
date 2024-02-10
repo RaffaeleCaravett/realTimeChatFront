@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateGroupChatComponent } from '../create-group-chat/create-group-chat.component';
 
 
 
@@ -23,7 +25,7 @@ socket:any
 interval:any
 notifications:any[]=[]
 interval1:any
-constructor(private chatService:ChatService,private toastr:ToastrService, private cdr:ChangeDetectorRef){}
+constructor(private chatService:ChatService,private toastr:ToastrService, private cdr:ChangeDetectorRef,private matDialog:MatDialog){}
   ngOnDestroy(): void {
   clearInterval(this.interval)
   clearInterval(this.interval1)
@@ -208,5 +210,12 @@ this.chatService.putNotification(c.notifications[1].id,{
   }
 })
     }
+}
+openGroupChat(c:any){
+  this.chat=c
+}
+createGroupChat(){
+const dialogRef= this.matDialog.open(CreateGroupChatComponent,{data:[this.user,this.users]})
+dialogRef.afterClosed().subscribe((data:any)=>{})
 }
 }
