@@ -21,11 +21,11 @@ chat:any
 chatForm!:FormGroup
 socket:any
 interval:any
+notifications:any[]=[]
 constructor(private chatService:ChatService,private toastr:ToastrService){}
   ngOnDestroy(): void {
   clearInterval(this.interval)
  }
-
   ngOnInit(): void {
     if(localStorage.getItem('user')){
 this.user=JSON.parse(localStorage.getItem('user')!)
@@ -38,12 +38,14 @@ this.user=JSON.parse(localStorage.getItem('user')!)
     if(chats){
       for(let c of chats){
                   this.chats.push(c)
+     this.getNotifications(c.id)
       }
     }
     this.chatService.getChatByPartecipantId(this.user.id).subscribe((chats:any)=>{
       if(chats){
         for(let c of chats){
           this.chats.push(c)
+     this.getNotifications(c.id)
 }
       }
     })
@@ -74,7 +76,8 @@ avviaChat(userId:number){
           chat_id:messaggio.chat.id,
 sender_id:messaggio.sender.id,
 receiver_id:receivers,
-messaggio:messaggio.message
+messaggio:messaggio.message,
+stato:"SAW"
         }
       ).subscribe((data:any)=>{})
     }
@@ -83,6 +86,7 @@ messaggio:messaggio.message
 this.chatService.getMessaggiByChatId(this.chat.id).subscribe((messaggi:any)=>{
   this.chat.messaggio=messaggi
 })
+this.getNotifications(this.chat.id)
   },3000)
       }
   }
@@ -111,7 +115,8 @@ if(!this.chat){
             chat_id:messaggio.chat.id,
   sender_id:messaggio.sender.id,
   receiver_id:receivers,
-  messaggio:messaggio.message
+  messaggio:messaggio.message,
+  stato:"SAW"
           }
         ).subscribe((data:any)=>{})
       }
@@ -120,6 +125,7 @@ if(!this.chat){
       this.chatService.getMessaggiByChatId(this.chat.id).subscribe((messaggi:any)=>{
         this.chat.messaggio=messaggi
       })
+     this.getNotifications(this.chat.id)
         },3000)
   })
 }
@@ -140,5 +146,18 @@ messaggio:this.chatForm.controls['messaggio'].value
       this.toastr.error(err.error.message||"Qualcosa è andato storto nel salvataggio del messaggio")
     });
   }
+}
+getNotifications(chatId:number){
+  this.chatService.getNotificationsByChatIdAndNotificationState(chatId,"NOT_SAW").subscribe((notification:any)=>{
+    this.notifications=notification
+  })
+}
+updateNotifications(c:any){
+  if(c.notifications&&c.notifications[0]&&c.notifications[0].receiver[0].id==this.user.id&&c.notifications[0].statoNotifica=="NOT_SAW"){
+    this.chatService.putNotification(c.notifications[0].id,{})
+  }
+    else if(c.notifications&&c.notifications[1]&&c.notifications[1].receiver[0].id==this.user.id&&c.notifications[1].statoNotifica=="NOT_SAW"){
+this.chatService.putNotification(c.notifications[1].id,{})
+    }
 }
 }

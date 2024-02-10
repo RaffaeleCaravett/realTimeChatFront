@@ -13,9 +13,11 @@
           <h2 class="fw-bold">Chat avviate</h2>
         <div *ngFor="let c of chats">
         <p *ngIf="c.tipoChat=='SINGOLA'">
-              <span *ngIf="c.starter.id!=user.id"><button class="btn fs-4"  (click)="avviaChat(c.starter.id)" >{{c.starter.nome + " " + c.starter.cognome}}</button></span>
+              <span *ngIf="c.starter.id!=user.id"><button class="btn fs-4"  (click)="avviaChat(c.starter.id);updateNotifications(c)" >{{c.starter.nome + " " + c.starter.cognome}}</button></span>
             <span *ngIf="c.partecipants[0]&&c.partecipants[0].id!=user.id"><button class="btn fs-4"  (click)="avviaChat(c.partecipants[0].id)" >{{c.partecipants[0].nome + " " + c.partecipants[0].cognome}}</button></span>
-        </p>
+        <span class="fs-4" *ngIf="c.notifications&&c.notifications[0]&&c.notifications[0].receiver[0].id==user.id&&c.notifications[0].statoNotifica=='NOT_SAW'||
+        c.notifications&&c.notifications[1]&&c.notifications[1].receiver[0].id==user.id&&c.notifications[1].statoNotifica=='NOT_SAW'"><mat-icon matBadge="1" matBadgeColor="warn" class="text-danger bg-white rounded ">notifications_on</mat-icon></span>
+          </p>
           </div>
         </div>
       </div>
@@ -30,7 +32,8 @@
   <div *ngIf="chat" class="d-flex flex-column">
  <h2 *ngIf="!chat.messaggio||chat.messaggio.length==0" class="bg-white rounded p-2 m-auto" style="width: fit-content;">Inizia tu la conversazione.</h2>
 <div style="height: 380px;" class="overflow-auto">
-  <div *ngFor="let message of chat.messaggio">
+  <div *ngIf="chat.messaggio">
+    <div *ngFor="let message of chat.messaggio">
  <div class="d-flex justify-content-start text-start" *ngIf="message.sender.id!=user.id">
 <div class="p-1 border rounded bg-darker text-white w-50">
   <span class="fw-bold">{{message.sender.nome + " " + message.sender.cognome}}</span>
@@ -44,6 +47,7 @@
 </div>
 </div>
 </div>
+  </div>
 </div>
 <div class="p-1 m-1 w-75 border rounded bg-personal m-auto align-text-bottom">
 <form [formGroup]="chatForm">

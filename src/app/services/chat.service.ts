@@ -12,6 +12,7 @@ export class ChatService {
   private users:string ='/user'
   private chat:string ='/chat'
   private messaggio:string ='/messaggio'
+  private notification:string ='/notification'
 
 constructor(private http:HttpClient, private authGuard:AuthGuard){}
 
@@ -42,5 +43,10 @@ deleteMessaggio(id:number){
 getMessaggiByChatId(id:number){
 return this.http.get(environment.API_URL+this.messaggio+`/chat/${id}`)
 }
-
+getNotificationsByChatIdAndNotificationState(chatId:number,notificationState:string){
+return this.http.get(environment.API_URL+this.notification+`/chatAndStato?chat_id=${chatId}&statoNotifica=${notificationState}`)
+}
+putNotification(notificationId:number,notification:{}){
+  return this.http.put(environment.API_URL+this.notification+`/${notificationId}`,notification)
+}
 }
