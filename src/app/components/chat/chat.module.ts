@@ -6,6 +6,7 @@ import { ChatComponent } from './chat.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     ChatRoutingModule,
 ReactiveFormsModule,
 MatIconModule,
-MatBadgeModule
+MatBadgeModule,
+MatMenuModule
   ],
   providers: [
   ],

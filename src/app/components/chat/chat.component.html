@@ -3,7 +3,10 @@
     <div class="row py-5">
       <div class="col-md-3 p-1">
         <div class="border rounded bg-personal text-center" *ngIf="users&&users.content">
-          <h2 class="fw-bold">Users</h2>
+          <h2 class="fw-bold">Users <span class="px-2"><button mat-button [matMenuTriggerFor]="menu"> <mat-icon>more_vert</mat-icon></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Crea chat di gruppo</button>
+            </mat-menu></span></h2>
           <p class="p-1 fs-4" *ngIf="users&&users.content.length<=1">Non ci sono altri user registrati</p>
           <div *ngIf="users&&users.content.length>1">
           <p class="p-1 " *ngFor="let u of users.content"><button class="btn fs-5" (click)="avviaChat(u.id)" *ngIf="u.id!=user.id">{{u.nome + " " + u.cognome}}</button></p>
