@@ -13,7 +13,7 @@
           <h2 class="fw-bold">Chat avviate</h2>
         <div *ngFor="let c of chats">
         <p *ngIf="c.tipoChat=='SINGOLA'">
-              <span *ngIf="c.starter.id!=user.id"><button class="btn fs-4"  (click)="avviaChat(c.starter.id);updateNotifications(c)" >{{c.starter.nome + " " + c.starter.cognome}}</button></span>
+              <span *ngIf="c.starter.id!=user.id"><button class="btn fs-4"  (click)="avviaChat(c.starter.id)" >{{c.starter.nome + " " + c.starter.cognome}}</button></span>
             <span *ngIf="c.partecipants[0]&&c.partecipants[0].id!=user.id"><button class="btn fs-4"  (click)="avviaChat(c.partecipants[0].id)" >{{c.partecipants[0].nome + " " + c.partecipants[0].cognome}}</button></span>
         <span class="fs-4" *ngIf="c.notifications&&c.notifications[0]&&c.notifications[0].receiver[0].id==user.id&&c.notifications[0].statoNotifica=='NOT_SAW'||
         c.notifications&&c.notifications[1]&&c.notifications[1].receiver[0].id==user.id&&c.notifications[1].statoNotifica=='NOT_SAW'"><mat-icon matBadge="1" matBadgeColor="warn" class="text-danger bg-white rounded ">notifications_on</mat-icon></span>
