@@ -77,8 +77,8 @@ avviaChat(userId:number){
   if(userId!=this.user.id){
     if(this.chats&&this.chats.length>0){
       for(let c of this.chats){
-    if(c.starter.id==this.user.id&&userId==c.partecipants[0].id||
-      c.starter.id==userId&&this.user.id==c.partecipants[0].id){
+    if(c.starter.id==this.user.id&&userId==c.partecipants[0].id && c.tipoChat=='SINGOLA'||
+      c.starter.id==userId&&this.user.id==c.partecipants[0].id &&c.tipoChat=='SINGOLA'){
   this.chat=c
   this.updateNotifications(c)
   for(let messaggio of this.chat.messaggio){
@@ -122,7 +122,8 @@ if(!this.chat){
     this.updateNotifications(chat)
     this.chats.push(chat)
     this.toastr.show("Chat avviata con successo")
-    for(let messaggio of this.chat.messaggio){
+    if(this.chat.messaggio&&this.chat.messaggio.length>0){
+       for(let messaggio of this.chat.messaggio){
       if(messaggio.message_state=="SENT"){
         let receivers:any[]=[]
         for(let r of messaggio.receiver){
@@ -138,6 +139,7 @@ if(!this.chat){
           }
         ).subscribe((data:any)=>{})
       }
+    }
     }
     this.ngOnDestroy()
     this.interval= setInterval(()=>{
@@ -180,41 +182,18 @@ getNotifications(chatId:number,notf?:any){
   })
 }
 updateNotifications(c:any){
-  if(c.notifications&&c.notifications[0]&&c.notifications[0].receiver[0].id==this.user.id&&c.notifications[0].statoNotifica=="NOT_SAW"){
-    let receivers:any[]=[]
-    for(let r of c.notifications[0].receiver){
-      receivers.push(r.id)
-    }
-    this.chatService.putNotification(c.notifications[0].id,{
-      sender_id:c.notifications[0].sender.id,
-      receiver_id:receivers,
-      testo:c.notifications[0].testo,
-      statoNotifica:"SAW",
-      chat_id:this.chat.id
-    }).subscribe((data:any)=>{
-      if(data){
-        c.notifications[0].statoNotifica="SAW"
-
-      }
-    })
-  }
-    else if(c.notifications&&c.notifications[1]&&c.notifications[1].receiver[0].id==this.user.id&&c.notifications[1].statoNotifica=="NOT_SAW"){
-      let receivers:any[]=[]
-      for(let r of c.notifications[1].receiver){
-        receivers.push(r.id)
-      }
-this.chatService.putNotification(c.notifications[1].id,{
-  sender_id:c.notifications[0].sender.id,
-  receiver_id:receivers,
-  testo:c.notifications[0].testo,
+  this.notifications.forEach((notification:any)=>{
+    if(notification.receiver.id==this.user.id&&notification.statoNotifica=="NOT_SAW"){
+this.chatService.putNotification(notification.id,{
+  sender_id:notification.sender.id,
+  receiver_id:[notification.receiver.id],
+  testo:notification.testo,
   statoNotifica:"SAW",
   chat_id:this.chat.id
 }).subscribe((data:any)=>{
-  if(data){
-    c.notifications[1].statoNotifica="SAW"
-  }
 })
-    }
+}
+})
 }
 openGroupChat(c:any){
   this.chat=c
