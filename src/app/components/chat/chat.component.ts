@@ -67,6 +67,7 @@ getChats(){
 }
       }
       this.chats=cts
+      console.log(this.chats)
     })
   })
 }
@@ -151,10 +152,14 @@ if(!this.chat){
 }
 inviaMessaggio(){
   if(this.chatForm.valid){
+    let partecipants:any[]=[]
+    for(let p of this.chat.partecipants){
+      partecipants.push(p.id)
+    }
     this.chatService.saveMessaggio({
 chat_id:this.chat.id,
 sender_id:this.user.id,
-receiver_id:[this.chat.partecipants[0].id==this.user.id?this.chat.starter.id:this.chat.partecipants[0].id],
+receiver_id:this.chat.partecipants[0].id==this.user.id?[this.chat.starter.id]:partecipants,
 messaggio:this.chatForm.controls['messaggio'].value
      }
     ).subscribe((messaggio:any)=>{
@@ -175,6 +180,7 @@ getNotifications(chatId:number,notf?:any){
   })
 }
 updateNotifications(c:any){
+  console.log(c)
   if(c.notifications&&c.notifications[0]&&c.notifications[0].receiver[0].id==this.user.id&&c.notifications[0].statoNotifica=="NOT_SAW"){
     let receivers:any[]=[]
     for(let r of c.notifications[0].receiver){
