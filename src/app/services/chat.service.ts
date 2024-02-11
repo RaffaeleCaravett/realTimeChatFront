@@ -31,6 +31,9 @@ return this.http.get(environment.API_URL+this.chat+`/partecipant/${userId}`)
 saveChat(chat:any){
   return this.http.post(environment.API_URL+this.chat,chat)
 }
+saveGroupChat(chat:any){
+  return this.http.post(environment.API_URL+this.chat+'/group',chat)
+}
 saveMessaggio(messaggio:any){
   return this.http.post(environment.API_URL+this.messaggio,messaggio)
 }
@@ -48,5 +51,8 @@ return this.http.get(environment.API_URL+this.notification+`/chatAndStato?chat_i
 }
 putNotification(notificationId:number,notification:{}){
   return this.http.put(environment.API_URL+this.notification+`/${notificationId}`,notification)
+}
+getAllUsersList(){
+  return this.http.get(environment.API_URL+this.users)
 }
 }

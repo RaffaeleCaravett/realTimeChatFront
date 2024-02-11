@@ -10,6 +10,11 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './core/token.interceptor';
+import { CreateGroupChatComponent } from './components/create-group-chat/create-group-chat.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { UserOperationsComponent } from './components/user-operations/user-operations.component';
 
 
 
@@ -18,7 +23,9 @@ import { TokenInterceptor } from './core/token.interceptor';
     AppComponent,
     NavComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    CreateGroupChatComponent,
+    UserOperationsComponent
 
   ],
   imports: [
@@ -31,6 +38,9 @@ import { TokenInterceptor } from './core/token.interceptor';
       preventDuplicates: true,
     }),
     HttpClientModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [
     provideAnimations(),
