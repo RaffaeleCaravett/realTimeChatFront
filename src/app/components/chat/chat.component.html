@@ -22,7 +22,7 @@
         c.notifications&&c.notifications[1]&&c.notifications[1].receiver[0].id==user.id&&c.notifications[1].statoNotifica=='NOT_SAW'"><mat-icon matBadge="1" matBadgeColor="warn" class="text-danger bg-white rounded ">notifications_on</mat-icon></span>
           </p>
           <p *ngIf="c.tipoChat=='DI_GRUPPO'">
-          <span (click)="openGroupChat(c)">{{c.nome}}</span>
+          <span (click)="openGroupChat(c)" class="fs-4">{{c.nome}}</span>
           </p>
           </div>
         </div>

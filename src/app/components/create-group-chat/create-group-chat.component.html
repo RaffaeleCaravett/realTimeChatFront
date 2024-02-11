@@ -1,1 +1,21 @@
-<p>create-group-chat works!</p>
+<div class="p-2 text-center">
+  <h1 mat-dialog-title>Crea chat di gruppo</h1>
+  <div class="p-2" mat-dialog-content>
+    <form [formGroup]="chatDiGruppo">
+    <label for="" class="py-2">Aggiungi user </label>
+    <select type="text" class="form-select" formControlName="partecipants_id" (change)="addUser(chatDiGruppo.controls['partecipants_id'].value)">
+      <option value=""></option>
+      <option value="{{u.id}}" *ngFor="let u of users">{{u.nome + " " + u.cognome}}</option>
+    </select>
+    <label for="" class="py-2"> Nome chat </label>
+    <input type="text" class="form-control" formControlName="nome">
+    <div class="p-1 d-flex justify-content-around">
+          <button class="p-1 btn" (click)="createChat()">Crea Chat</button>
+          <button mat-button [mat-dialog-close] >Esci</button>
+        </div>
+    </form>
+    <ul>
+      <li *ngFor="let u of usersPayload">{{u.nome + " " + u.cognome}} <span class="px-2 fs-5" (click)="removeFromUsersPayload(u.id)">❌</span></li>
+    </ul>
+  </div>
+</div>

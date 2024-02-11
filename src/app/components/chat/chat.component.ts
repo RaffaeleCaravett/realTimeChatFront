@@ -215,7 +215,16 @@ openGroupChat(c:any){
   this.chat=c
 }
 createGroupChat(){
-const dialogRef= this.matDialog.open(CreateGroupChatComponent,{data:[this.user,this.users]})
-dialogRef.afterClosed().subscribe((data:any)=>{})
+  let users:any[]=[]
+  this.chatService.getAllUsersList().subscribe((us:any)=>{
+if(us){
+users=us
+const dialogRef= this.matDialog.open(CreateGroupChatComponent,{data:[this.user,users]})
+dialogRef.afterClosed().subscribe((data:any)=>{if(data){
+  this.chats.push(data)
+}})
+}
+  })
+
 }
 }
