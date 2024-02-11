@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupChatComponent } from '../create-group-chat/create-group-chat.component';
+import { Router } from '@angular/router';
 
 
 
@@ -25,7 +26,7 @@ socket:any
 interval:any
 notifications:any[]=[]
 interval1:any
-constructor(private chatService:ChatService,private toastr:ToastrService, private cdr:ChangeDetectorRef,private matDialog:MatDialog){}
+constructor(private chatService:ChatService,private toastr:ToastrService, private cdr:ChangeDetectorRef,private matDialog:MatDialog,private router:Router){}
   ngOnDestroy(): void {
   clearInterval(this.interval)
   clearInterval(this.interval1)
@@ -67,7 +68,6 @@ getChats(){
 }
       }
       this.chats=cts
-      console.log(this.chats)
     })
   })
 }
@@ -180,7 +180,6 @@ getNotifications(chatId:number,notf?:any){
   })
 }
 updateNotifications(c:any){
-  console.log(c)
   if(c.notifications&&c.notifications[0]&&c.notifications[0].receiver[0].id==this.user.id&&c.notifications[0].statoNotifica=="NOT_SAW"){
     let receivers:any[]=[]
     for(let r of c.notifications[0].receiver){
@@ -219,6 +218,18 @@ this.chatService.putNotification(c.notifications[1].id,{
 }
 openGroupChat(c:any){
   this.chat=c
+  this.notifications.forEach((notification:any)=>{
+    if(notification.receiver.id==this.user.id){
+this.chatService.putNotification(notification.id,{
+  sender_id:notification.sender.id,
+  receiver_id:[notification.receiver.id],
+  testo:notification.testo,
+  statoNotifica:"SAW",
+  chat_id:this.chat.id
+}).subscribe((data:any)=>{
+})
+    }
+  })
 }
 createGroupChat(){
   let users:any[]=[]
@@ -232,5 +243,8 @@ dialogRef.afterClosed().subscribe((data:any)=>{if(data){
 }
   })
 
+}
+goToProfile(user:any){
+  this.router.navigate(['/profilo',user.id])
 }
 }

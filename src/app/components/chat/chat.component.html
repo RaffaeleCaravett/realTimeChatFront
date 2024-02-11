@@ -34,11 +34,11 @@
       </div>
       <div class="col-md-9 p-1">
         <div class="border rounded bg-personal text-center p-2">
-          <h1 class="fw-bold" *ngIf="chat&&chat.partecipants.length==1">Chat <span *ngIf="chat&&chat.starter.id!=user.id">con {{chat.starter.nome + " " + chat.starter.cognome}}</span>
-            <span *ngIf="chat&&chat.partecipants[0]&&chat.partecipants[0].id!=user.id">con {{chat.partecipants[0].nome + " " + chat.partecipants[0].cognome}}</span></h1>
+          <h1 class="fw-bold" *ngIf="chat&&chat.partecipants.length==1">Chat <span *ngIf="chat&&chat.starter.id!=user.id" (click)="goToProfile(chat.starter)">con {{chat.starter.nome + " " + chat.starter.cognome}}</span>
+            <span *ngIf="chat&&chat.partecipants[0]&&chat.partecipants[0].id!=user.id" (click)="goToProfile(chat.partecipants[0])">con {{chat.partecipants[0].nome + " " + chat.partecipants[0].cognome}}</span></h1>
             <h1 class="fw-bold" *ngIf="chat&&chat.tipoChat=='DI_GRUPPO'"><button mat-button [matMenuTriggerFor]="menu" class="fs-1">{{chat.nome}}</button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item *ngFor="let p of chat.partecipants">{{p.nome + " " + p.cognome}}</button>
+                <button mat-menu-item *ngFor="let p of chat.partecipants" (click)="goToProfile(p)">{{p.nome + " " + p.cognome}}</button>
               </mat-menu>
               </h1>
 <div class="p-2 bg-personal position-relative"  style="min-height: 500px;">

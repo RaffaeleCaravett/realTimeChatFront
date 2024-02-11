@@ -7,7 +7,7 @@
     <button class="btn fs-4" [routerLink]="'/chat'" *ngIf="isAuthenticated">Chat</button>
     </div>
     <div class="col-md-3">
-    <button class="btn fs-4" [routerLink]="['/profilo',user?.id]" *ngIf="isAuthenticated">Profile</button>
+    <button class="btn fs-4" (click)="goToProfile()" *ngIf="isAuthenticated">Profile</button>
     </div>
     <div class="col-md-3">
     <button class="btn fs-4" [routerLink]="'/'" *ngIf="!isAuthenticated">Login/Signup</button>

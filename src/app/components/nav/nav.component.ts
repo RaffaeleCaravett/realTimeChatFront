@@ -27,4 +27,13 @@ this.authService.refreshToken=''
 this.authService.authenticateUser(false)
 this.router.navigate(['/home'])
 }
+
+
+goToProfile(){
+  if(localStorage.getItem('user')){
+    this.user=JSON.parse(localStorage.getItem('user')!)
+this.router.navigate(['/profilo',this.user.id])
+
+        }
+}
 }
