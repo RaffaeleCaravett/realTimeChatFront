@@ -58,7 +58,7 @@ this.navigatingUser=JSON.parse(localStorage.getItem('user')!)
     });
   }
 deleteProfile(userId:number){
-  const dialog = this.dialogRef.open(UserOperationsComponent,{data:[]})
+  const dialog = this.dialogRef.open(UserOperationsComponent,{data:'delete'})
   dialog.afterClosed().subscribe((result:string)=>{
 if(result=='yes'){
   this.profiloService.deleteUserById(userId).subscribe((deleted:any)=>{

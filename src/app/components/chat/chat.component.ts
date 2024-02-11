@@ -150,6 +150,8 @@ if(!this.chat){
         },3000)
   })
 }
+}else{
+
 }
 }
 inviaMessaggio(){
@@ -197,8 +199,11 @@ this.chatService.putNotification(notification.id,{
 }
 openGroupChat(c:any){
   this.chat=c
+  this.notifications=c.notifications
   this.notifications.forEach((notification:any)=>{
+    console.log(notification)
     if(notification.receiver.id==this.user.id){
+      console.log(notification)
 this.chatService.putNotification(notification.id,{
   sender_id:notification.sender.id,
   receiver_id:[notification.receiver.id],
