@@ -18,11 +18,11 @@ constructor(private http:HttpClient){}
 getUserById(userId:number){
   return this.http.get(environment.API_URL+this.user+'/'+userId)
 }
-modifyUserById(userId:number,user:{}){
-  return this.http.put(environment.API_URL+this.user+'/'+userId,user)
+modifyUser(parameter:string,user:{}){
+  return this.http.put(environment.API_URL+this.user+'/'+parameter,user)
 }
-deleteUserById(userId:number){
-  return this.http.delete(environment.API_URL+this.user+'/'+userId)
+deleteUser(parameter:string){
+  return this.http.delete(environment.API_URL+this.user+'/'+parameter)
 }
 getChatByStarterId(userId:any){
   return this.http.get(environment.API_URL+this.chat+`/starter/${userId}`)

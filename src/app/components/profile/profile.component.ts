@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProfiloService } from 'src/app/services/profilo.service';
 import { UserOperationsComponent } from '../user-operations/user-operations.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +19,7 @@ msgs:any[]=[]
 startedChats:any[]=[]
 navigatingUser:any
 constructor(private route:ActivatedRoute,private profiloService:ProfiloService,private dialogRef:MatDialog,private authService:AuthService,
-  private router:Router){}
+private toastr:ToastrService,private router:Router){}
 
   ngOnInit(): void {
 
@@ -57,20 +58,37 @@ this.navigatingUser=JSON.parse(localStorage.getItem('user')!)
       })
     });
   }
-deleteProfile(userId:number){
+deleteProfile(){
   const dialog = this.dialogRef.open(UserOperationsComponent,{data:'delete'})
   dialog.afterClosed().subscribe((result:string)=>{
 if(result=='yes'){
-  this.profiloService.deleteUserById(userId).subscribe((deleted:any)=>{
+  this.profiloService.deleteUser('me').subscribe((deleted:any)=>{
 if(deleted){
   localStorage.clear()
   this.authService.setToken('')
   this.authService.setRefreshToken('')
   this.authService.authenticateUser(false)
-  this.router.navigate(['/home'])
+  this.router.navigate(['/'])
 }
   })
 }
   })
+}
+
+putProfile(user:any){
+  const dialog = this.dialogRef.open(UserOperationsComponent,{data:[user,'modify']})
+  dialog.afterClosed().subscribe((result:any)=>{
+    if(result){
+      this.profiloService.modifyUser('me',result).subscribe((u:any)=>{
+    if(u){
+      localStorage.setItem('user',JSON.stringify(u))
+     this.user=JSON.parse(localStorage.getItem('user')!)
+    }
+    this.toastr.show('User modificato.')
+      },err=>{
+        this.toastr.show('Errore. User non modificato.')
+      })
+    }
+      })
 }
 }

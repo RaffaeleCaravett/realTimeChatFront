@@ -20,21 +20,21 @@
   <div class="p-2 bg-personal rounded border shadow">
 <div class="row p-0 m-0 w-100">
   <div class="col-md-4 p-2">
-    <div class="bg-personal p-2 rounded border shadow">
+    <div class="bg-personal p-2 rounded border shadow overflow-auto">
 <h1 style="font-size:50px">Chat avviate :</h1>
 <p class="personal-text">{{startedChats.length}}
 </p>
     </div>
   </div>
   <div class="col-md-4 p-2">
-    <div class="bg-personal p-2 rounded border shadow">
+    <div class="bg-personal p-2 rounded border shadow overflow-auto">
 <h1 style="font-size:50px">Chat totali :</h1>
 <p class="personal-text">{{chats.length}}
 </p>
     </div>
   </div>
   <div class="col-md-4 p-2">
-    <div class="bg-personal p-2 rounded border shadow">
+    <div class="bg-personal p-2 rounded border shadow overflow-auto">
 <h1 style="font-size:50px">Messaggi inviati :</h1>
 <p class="personal-text">{{msgs.length}}
 </p>
@@ -43,14 +43,16 @@
 </div>
 </div>
     </div>
-    <div class="col-md-12 p-1">
+    <div class="col-md-12 p-1" *ngIf="user.id==navigatingUser.id">
       <div class="bg-personal p-2 rounded border shadow">
      <div class="row p-0 m-0 w-100">
       <div class="col-md-6">
-
+        <button class="btn fs-1" (click)="putProfile(user)">🖊️
+          <p>Modify profile</p>
+        </button>
       </div>
-      <div class="col-md-6" *ngIf="user.id==navigatingUser.id">
-        <button class="btn fs-1" (click)="deleteProfile(user.id)">❌
+      <div class="col-md-6">
+        <button class="btn fs-1" (click)="deleteProfile()">❌
           <p>Delete profile</p>
         </button>
       </div>
