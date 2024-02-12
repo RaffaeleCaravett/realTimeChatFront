@@ -186,13 +186,19 @@ getNotifications(chatId:number,notf?:any){
 updateNotifications(c:any){
   this.notifications.forEach((notification:any)=>{
     if(notification.receiver.id==this.user.id&&notification.statoNotifica=="NOT_SAW"){
+      console.log(notification)
 this.chatService.putNotification(notification.id,{
   sender_id:notification.sender.id,
   receiver_id:[notification.receiver.id],
   testo:notification.testo,
   statoNotifica:"SAW",
-  chat_id:this.chat.id
+  chat_id:c.id
 }).subscribe((data:any)=>{
+  c.notifications.forEach((ntf:any)=>{
+    if(ntf.id==data.id){
+      ntf.statoNotifica="SAW"
+    }
+  })
 })
 }
 })
